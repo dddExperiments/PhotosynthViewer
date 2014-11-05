@@ -1,0 +1,13 @@
+//The following method was ported and optimized to avoid garbage collections from:
+//http://stackoverflow.com/questions/2049582/how-to-determine-a-point-in-a-triangle
+
+//Fast barycentric coordinates method (Perro Azul answer to Andreas Brinck)
+function isInsideTriangle(bufferX, bufferY, indices, queryX, queryY) {
+	var area = 1/2 * (-bufferY[indices[1]] * bufferX[indices[2]] + bufferY[indices[0]] * (-bufferX[indices[1]] + bufferX[indices[2]]) + bufferX[indices[0]] * (bufferY[indices[1]] - bufferY[indices[2]]) + bufferX[indices[1]] * bufferY[indices[2]]);
+	var sign = area < 0 ? -1 : 1;
+	var s = (bufferY[indices[0]] * bufferX[indices[2]] - bufferX[indices[0]] * bufferY[indices[2]] + (bufferY[indices[2]] - bufferY[indices[0]]) * queryX + (bufferX[indices[0]] - bufferX[indices[2]]) * queryY) * sign;
+	var t = (bufferX[indices[0]] * bufferY[indices[1]] - bufferY[indices[0]] * bufferX[indices[1]] + (bufferY[indices[0]] - bufferY[indices[1]]) * queryX + (bufferX[indices[1]] - bufferX[indices[0]]) * queryY) * sign;
+
+	//It should answer yes on the edge as well with the <= instead of < ?
+	return s >= 0 && t >= 0 && (s + t) <= 2 * area * sign;
+}

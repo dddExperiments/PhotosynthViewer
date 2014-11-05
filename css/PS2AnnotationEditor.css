@@ -1,0 +1,336 @@
+/*
+	PSAnnotationEditorLayer
+*/
+.PSAnnotationEditorLayer {
+	width: 100%;
+	height: 100%;
+	z-index: 11;
+	position: absolute;
+	top: 0;
+	left: 0;
+	-ms-content-zooming: none;
+}
+
+.PSAnnotationEditorLayer * {
+	font: 16px 'wf_segoe-ui_light','Segoe UI Light','Segoe WP Light','Segoe UI','Segoe WP',Tahoma,Arial,sans-serif;
+	-ms-content-zooming: none;
+}
+
+.PSAnnotationEditorLayer .title {
+	text-align: center;
+	background-color: rgba(88, 88, 88, 0.8);
+	width: 400px;
+	height: 42px;
+	padding: 10px;
+	color: white;
+	font-size: 28px;
+	left: 50%;
+	position: absolute;
+	margin-left: -200px;
+	cursor: default;
+	pointer-events: visible;
+}
+
+.PSAnnotationEditorLayer .exit {
+	background:transparent url('PS2AnnotationEditor/close.png') no-repeat;
+	width: 17px;
+	height: 17px;
+	border: 0;
+	cursor: pointer;
+	vertical-align: middle;
+	margin-left: 50px;
+}
+
+.PSAnnotationEditorLayer .preview {
+	position: absolute;
+	width: 44px;
+	height: 44px;
+	z-index: 12;
+	border-radius: 50%;
+	/*box-shadow: 0 0 0 2px rgba(41, 187, 140,1.0),0 0 0 3px rgba(0,0,0,0.5);*/
+	box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5), 0 0 0 4px rgba(41, 187, 140, 1.0), 0 0 0 5px rgba(0, 0, 0, 0.5);
+	cursor: move;
+	pointer-events: visible;
+}
+
+.PSAnnotationEditorLayer .previewMoving {
+	/*box-shadow: 0 0 0 2px rgba(41, 187, 140,0.15),0 0 0 3px rgba(0,0,0,0.5);*/
+	box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15), 0 0 0 4px rgba(41, 187, 140, 0.15), 0 0 0 5px rgba(0, 0, 0, 0.15);
+	cursor: crosshair;
+}
+
+.PSAnnotationEditorLayer .previewMoving .anchor {
+	display: none
+}
+
+.PSAnnotationEditorLayer .preview .anchor {
+	position: absolute;
+	background-color: white;
+	width: 39px;
+	height: 40px;
+	background:transparent url('PS2AnnotationEditor/ps-sq-scale.png') no-repeat;
+	cursor: ew-resize;
+	pointer-events: visible;
+}
+
+.PSAnnotationEditorLayer .preview .editPanel {
+	position: absolute;
+	width: 325px;
+	height: 300px;
+	padding: 8px;
+	background-color: #403F40;
+	cursor: default;
+	pointer-events: visible;
+}
+
+.PSAnnotationEditorLayer .preview .editPanel textarea {
+	width: 321px;
+	height: 115px;
+	background-color: #403F40;
+	border: 2px solid #58585B;
+	color: #58585B;
+	margin-top: 8px;
+	resize: none;
+}
+
+.PSAnnotationEditorLayer .preview .editPanel textarea:focus {
+	color: white;
+	outline: none;
+}
+
+.PSAnnotationEditorLayer .preview .editPanel .options {
+	display: inline-block;
+}
+
+.PSAnnotationEditorLayer .preview .editPanel button {
+	float: right;
+	min-width: 80px;
+	padding: 6px;
+	border: 0;
+	color: black;
+	font-size: 15px;
+	cursor: pointer;
+}
+
+.PSAnnotationEditorLayer .preview .editPanel button.cancel {
+	background-color: #7c7c7c;
+}
+
+.PSAnnotationEditorLayer .preview .editPanel button.cancel:hover {
+	background-color: #c1c1c1;
+}
+
+.PSAnnotationEditorLayer .preview .editPanel button.publish {
+	background-color: #19db9f;
+}
+
+.PSAnnotationEditorLayer .preview .editPanel button.publish:hover {
+	background-color: #80ffc5;
+}
+
+.PSAnnotationEditorLayer .preview .editPanel button.edit, .PSAnnotationEditorLayer .preview .editPanel button.connect {
+	float: none;
+	background-color: #7c7c7c;
+	border: 1px solid #7c7c7c;
+	margin-left: 25px;
+	color: black;
+}
+
+.PSAnnotationEditorLayer .preview .editPanel button.edit:hover, .PSAnnotationEditorLayer .preview .editPanel button.connect:hover {
+	background-color: #c1c1c1;
+	border: 1px solid #c1c1c1;
+}
+
+.PSAnnotationEditorLayer .preview .editPanel button.edit:disabled, .PSAnnotationEditorLayer .preview .editPanel button.connect:disabled {
+	background-color: #403F40;
+	border: 1px solid white;
+	cursor: default;
+	color: white;
+}
+
+
+.PSAnnotationEditorLayer .preview .editPanel h3 {
+	cursor: pointer;
+	color: white;
+	padding: 8px 10px 8px 10px;
+	border-bottom: 2px solid #58585A;
+	background-image: url(PS2AnnotationEditor/ps-sq-showless.png);
+	background-repeat: no-repeat;
+	background-position: 300px 50%;
+}
+
+.PSAnnotationEditorLayer .preview .editPanel .selected h3 {
+	color: white;
+	background-color: #58585A;
+	background-image: url(PS2AnnotationEditor/ps-sq-showmore.png);
+	background-repeat: no-repeat;
+	background-position: 300px 50%;
+}
+
+.PSAnnotationEditorLayer .preview .editPanel .accordion {
+	margin-bottom: 8px;
+}
+
+.PSAnnotationEditorLayer .preview .editPanel .accordion .content {
+	display: none;
+}
+
+.PSAnnotationEditorLayer .preview .editPanel .accordion .content label {
+	font-size: 16px;
+	color: white;
+}
+
+.PSAnnotationEditorLayer ul.visibility-range-type {
+	list-style-type: none;
+	margin-left: 12px;
+}
+
+.PSAnnotationEditorLayer ul.visibility-range-type li input[type="radio"]{
+	vertical-align: middle;
+	margin-right: 5px;
+}
+
+.PSAnnotationEditorLayer .preview .editPanel .accordion .content input[type="checkbox"] {
+	vertical-align: middle;
+}
+
+.PSAnnotationEditorLayer .preview .editPanel canvas {
+	cursor: not-allowed;
+}
+
+.PSAnnotationEditorLayer .preview .editPanel .selected .content {
+	display: block;
+}
+
+.PSAnnotationEditorLayer .preview .editPanel .command {
+	width: 325px;
+	margin-top: 5px;
+	display: block;
+	bottom: 10px;
+	height: 28px;
+	position: absolute;
+}
+
+.PSAnnotationEditorLayer .preview .editPanel .visibility-explanation {
+	font-size: 15px;
+	color: white;
+	margin-top: 5px;
+}
+
+/*
+	PSAnnotationVisibilityLayer
+*/
+.PSAnnotationVisibilityLayer {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 100;
+	width: 100%;
+	height: 100%;
+}
+
+.PSAnnotationVisibilityLayer .toolbar {
+	position: absolute;
+	left: 50%;
+	margin-left: -336px;
+	width: 672px;
+	height: 54px;
+	padding: 5px;
+	background-color: rgba(88, 88, 88, 0.8);
+	color: white;
+	font-size: 17px;
+	padding-right: 20px;
+	padding-left: 25px;
+	cursor: default;
+}
+
+.PSAnnotationVisibilityLayer .toolbar p {
+	margin-top: 5px;
+}
+
+.PSAnnotationVisibilityLayer .toolbar button {
+	border: 0;
+	color: white;
+	font-size: 15px;
+	cursor: pointer;
+}
+
+.PSAnnotationVisibilityLayer .toolbar .cancel {
+	background: url(PS2AnnotationEditor/close.png) no-repeat;
+	position: absolute;
+	top: 25px;
+	right: 18px;
+	width: 17px;
+	height: 17px;
+}
+
+.PSAnnotationVisibilityLayer .toolbar .done {
+	padding: 4px 15px 4px 15px;
+	background-color: #19db9f;
+	position: absolute;
+	top: 25px;
+	right: 52px;
+	min-width: 80px;
+	color: black;
+}
+
+.PSAnnotationVisibilityLayer .toolbar .done:hover {
+	background-color: #80ffc5;
+}
+
+.PSAnnotationVisibilityLayer .slider-container {
+	background-color: #0D0D0D;
+	width: 530px;
+	height: 2px;
+	margin-top: 15px;
+	margin-bottom: 10px;
+	position: relative;
+}
+
+.PSAnnotationVisibilityLayer .slider-range {
+	background-color: white;
+	position: absolute;
+	top: 0;
+	left: 10px;
+	width: 200px;
+	height: 2px;
+	z-index: 0;
+}
+
+.PSAnnotationVisibilityLayer .slider-keyframe, .PSAnnotationVisibilityLayer .slider-container-start, .PSAnnotationVisibilityLayer .slider-container-stop {
+	background-color: white;
+	width: 1px;
+	height: 10px;
+	position: absolute;
+	top: -4px;
+	left: 150px;
+}
+
+.PSAnnotationVisibilityLayer .slider-handle {
+	width: 20px;
+	height: 14px;
+	position: absolute;
+	top: -6px;
+	cursor: pointer;
+	z-index: 1;
+}
+
+.PSAnnotationVisibilityLayer .slider-start {
+	left: 4px;
+	background: url(PS2AnnotationEditor/left-slider-handle.png) no-repeat;
+}
+
+.PSAnnotationVisibilityLayer .slider-stop {
+	left: 204px;
+	background: url(PS2AnnotationEditor/right-slider-handle.png) no-repeat;
+}
+
+.PSAnnotationVisibilityLayer .slider-container-start {
+	background-color: black;
+	left: 0;
+}
+
+.PSAnnotationVisibilityLayer .slider-container-stop {
+	background-color: black;
+	left: 530px;
+}

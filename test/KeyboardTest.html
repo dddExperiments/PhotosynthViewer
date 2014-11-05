@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+
+<!-- on corp net IE thinks it's looking at legacy corporate software so it runs in compat mode. -->
+<meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+
+    <title>Keyboard test</title>
+    <script src="../src/Core.js"></script>
+	<script src="../src/PacketViewer/GestureHelper.js"></script>
+    <script src="../src/PacketViewer/KeyboardVelocity.js"></script>
+
+    <script>
+
+        var elem;
+        var outputElem;
+        var keyboardVelocity;
+        var gestureHelper;
+
+        var loopRunning = false;
+
+        function onload() {
+            elem = document.getElementById("keyboardElem");
+            outputElem = document.getElementById("outputElem");
+            keyboardVelocity = new PS.Packet.KeyboardVelocity(3.0);
+            gestureHelper = new PS.Packet.GestureHelper(elem, { keyDown: onKeydown, keyUp: onKeyup });
+            gestureHelper.enable();
+        }
+
+        function onKeydown(e) {
+            keyboardVelocity.keyDown(e);
+
+            if (!loopRunning && keyboardVelocity.updateNeeded()) {
+                loopRunning = true;
+                requestAnimationFrame(animationLoop);
+            }
+        }
+
+        function onKeyup(e) {
+            keyboardVelocity.keyUp(e);
+        }
+
+        function animationLoop() {
+
+            keyboardVelocity.update();
+            outputElem.innerHTML = "";
+
+            outputElem.innerHTML += "keyDown.x: " + keyboardVelocity.getKeydownDirection().x + "<br/>";
+            outputElem.innerHTML += "keyDown.y: " + keyboardVelocity.getKeydownDirection().y + "<br/>";
+            outputElem.innerHTML += "keyDown.z: " + keyboardVelocity.getKeydownDirection().z + "<br/>";
+
+            outputElem.innerHTML += "velocity.x: " + keyboardVelocity.getVelocity().x + "<br/>";
+            outputElem.innerHTML += "velocity.y: " + keyboardVelocity.getVelocity().y + "<br/>";
+            outputElem.innerHTML += "velocity.z: " + keyboardVelocity.getVelocity().z + "<br/>";
+
+            if (keyboardVelocity.updateNeeded()) {
+                requestAnimationFrame(animationLoop);
+            }
+            else {
+                loopRunning = false;
+            }
+        }
+
+    </script>
+</head>
+<body onload="onload();">
+    <div id="keyboardElem" style="width: 400px; height: 400px; border: 1px solid black"></div>
+    <div id="outputElem"></div>
+</body>
+</html>

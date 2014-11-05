@@ -1,0 +1,20 @@
+	//http://blog.stchur.com/2007/03/15/mouseenter-and-mouseleave-events-for-firefox-and-other-non-ie-browsers/
+	function mouseEnter(func) {
+		return function(e) {
+			var relTarget = e.relatedTarget;
+			if (this === relTarget || isAChildOf(this, relTarget)) {
+				return;
+			}
+			func.call(this, e);
+		};
+	}
+
+	function isAChildOf(parent, child) {
+		if (parent === child) {
+			return false;
+		}
+		while (child && child !== parent) {
+			child = child.parentNode;
+		}
+		return child === parent;
+	}

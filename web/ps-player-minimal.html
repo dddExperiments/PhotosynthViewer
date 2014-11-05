@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<title>Demo - Photosynth Player Minimal</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+		<link rel="stylesheet" type="text/css" href="css/demos.css" />
+		<link rel="stylesheet" type="text/css" href="../css/PS2PacketPlayer.css" />
+
+		<style type="text/css">
+			body {
+				padding: 0;
+			}
+
+			#container {
+				position: relative;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="container"></div>
+
+		<script type="text/javascript" src="js/getUrlParams.js"></script>
+		<script type="text/javascript">var _useCompileJS = getUrlParams().compiled === "1";</script>
+		<script type="text/javascript" src="js/embedScripts.js"></script>
+
+		<script type="text/javascript">
+
+		var _guid = getUrlParams().guid || "";
+		var synthPath   = _guid ? 'https://cdn.photosynth.net/ps2/'+_guid+'/packet/' : 'synths/bordeaux/';
+		var corsEnabled = _guid ? true : false
+
+		var div = document.getElementById("container");
+
+		//defining viewer options
+		var playerOptions = {
+			packetURL: synthPath,
+			width:  window.innerWidth,
+			height: window.innerHeight,
+			corsEnabled: corsEnabled,
+			viewer: {
+				//Used by IE11 to load the web worker (other browsers are using the inline version instead)
+				pathToWorker: "../src/PacketPlayer/PacketViewer/WorkerParser.js",
+			}
+		};
+
+		//overriding options with the ones store in the Html5 locaStorage by the hidden 42 menu
+		PS.extend(playerOptions, PS.Packet.ViewerOptions.getUser());
+
+		//creating the player
+		player = new PS.Packet.Player(div, playerOptions);
+
+		</script>
+	</body>
+</html>

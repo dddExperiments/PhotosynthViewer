@@ -1,0 +1,30 @@
+Clean up
+- [ ] Add http://editorconfig.org/
+- [ ] Add OpenSeadragon and three.js source to the build system
+- [ ] rename parser.js to struct.js + move other structs inside
+- [ ] explain stuff for bing map demos + remove key
+- [ ] make it easy to change the port of the annotation store / synth linker web service
+
+New features
+- [ ] Add .destroy() to Progress.
+- [ ] create slider for annotations
+- [ ] move path parsing to web worker
+- [ ] share low geometry indices (if possible)
+- [ ] Update Request headers to use object instead of {label, value}
+- [ ] switch to the new Tween Library + remove usage of the legacy one
+- [ ] Update Exif to use Core
+- [ ] move php demo page to html
+- [ ] setup travis
+- [ ] setup grunt-sprite-generator (seems broken right now)
+- [ ] implement stack based navigation in PS.Packet.SynthConnectionManager (only supporting one backward navigation right now)
+- [ ] use SubSecTime from Exif data when available for the capture date (need image with this field to validate)
+- [ ] add 3d annotations (webgl+css3d with seadragon disabled)
+- [ ] fix zoomToHome button with chrome and touch
+
+Bug fix
+- [ ] add prefetchSeadragon and onCameraChanged options to snapToCamera
+- [ ] Fix memory leak into dat.gui
+- [ ] Fix memory leak into Camera.assignMesh 
+- [ ] Update dat.gui requestAnimationFrame
+- [ ] fix different code path for loading... every thing should call preload and then setActive
+- [ ] fix keyboard with SDK

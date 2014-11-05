@@ -1,0 +1,12 @@
+{
+  "name": "ps2-annotation-store",
+  "description": "PS2 Annotation Store",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "async": "^0.9.0",
+    "express": "3.x",
+    "mongodb": "^1.4.7",
+    "request": "^2.40.0"
+  }
+}

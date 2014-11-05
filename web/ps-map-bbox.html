@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Photosynth user on Bing Maps</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+		<meta charset="utf-8">
+		<link rel="stylesheet" type="text/css" href="css/map.bing.css">
+
+		<script src="https://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0&s=1"></script>
+
+		<script type="text/javascript" src="js/getUrlParams.js"></script>
+		<script type="text/javascript">var _useCompileJS = getUrlParams().compiled === "1";</script>
+		<script type="text/javascript" src="js/embedScripts.js"></script>
+
+		<!-- jquery is only used for autocomplete -->
+		<script src="js/jquery/jquery.js"></script>
+		<script src="js/jquery/jquery-ui.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/jquery/jquery-ui.min.css">
+
+		<script src="js/map/SynthMapClusterLayer.js"></script>
+		<script src="js/map/SynthMapAutoComplete.js"></script>
+	</head>
+	<body>
+		<div id="map-canvas"></div>
+
+		<div id="map-autocomplete">
+			<input type="text" id="searchBox" style="width: 200px;" />
+		</div>
+
+		<div class="notice">Move and zoom to see ps2 in the current viewport</div>
+
+		<script>
+
+		var _map;
+
+		function createMap() {
+
+			//create map
+			_map = new Microsoft.Maps.Map(document.getElementById('map-canvas'), {
+				credentials: _bingMapKey,
+				enableSearchLogo: false,
+				showDashboard: false,
+				backgroundColor: new Microsoft.Maps.Color(255, 0, 0, 0),
+				mapTypeId : Microsoft.Maps.MapTypeId.aerial, //road?
+				center: new Microsoft.Maps.Location(19.83816565050461, 5.542245427666566),
+				zoom: 3,
+				width: window.innerWidth,
+				height: window.innerHeight
+			});
+
+			//Create search autocomplete
+			PS.SynthMapAutoComplete.init(_map, _bingMapKey, document.getElementById('searchBox'));
+
+			//add cluster layer
+			PS.SynthMapClusterLayer.init(_map, 'js/map/V7PointBasedClustering.js', {
+				onInit: function() {
+					displaySynthInBBox();
+				},
+				onPinClick: function() {
+					var guid = this.target.data.guid;
+					window.location.assign("https://photosynth.net/view/"+guid);
+				}
+			});
+
+			//update map on view change
+			Microsoft.Maps.Events.addHandler(_map, 'viewchangeend', function(e) {
+				if (PS.SynthMapClusterLayer.isInitialized()) {
+					displaySynthInBBox();
+				}
+			});
+		}
+
+		function displaySynthInBBox() {
+			var bounds = _map.getBounds();
+			PS.API.getNearestSynthsByBBox(bounds.getSouth(), bounds.getWest(), bounds.getNorth(), bounds.getEast(), {
+				filter: 'SynthPackets',
+				maxItems: 100,
+				onComplete: function(collections) {
+					collections = collections;
+					PS.SynthMapClusterLayer.update(collections);
+				}
+			});
+		}
+
+		window.addEventListener("load", createMap, false);
+		</script>
+
+	</body>
+</html>

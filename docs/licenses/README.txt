@@ -1,0 +1,20 @@
+- PacketPlayer:
+	- dat.gui: [Apache 2.0] used by the hidden 42 menu
+	- MooTools: [MIT] used to implement the lightweight Tween class
+	- Openseadragon: [BSD] used to display seadragon images
+	- Three.js: [MIT] used to render synth using webgl
+	- isInsideTriangle: [stackoverflow] used to compute the 3d position of the annotation
+	- onMouseEnter/onMouseLeave: [website] used by the annotation viewer
+	- Autolinker.js: [MIT] used to simplify URL displayed in annotations
+- Demos
+	- ConnectedSynths
+		- dagre-d3: [MIT] used to render the graph of connected synth
+		- dagre: [MIT] used by dagre
+		- d3.js: [BSD] used by dagre-d3
+	- Map
+		- jquery-ui: [MIT] used to display the autocomplete list of city
+		- jquery: [MIT] used by jquery-ui
+		- v7bingmapclustering: [Ms-PL] used by map demo for client side clustering
+	- API Playground
+		- vis.js: [MIT] used to display the timeline
+		- moment.js: [MIT] used by vis.js

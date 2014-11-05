@@ -1,0 +1,198 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<title>WebGL SpinMovie Viewer</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+		<!-- ps2 viewing + annotation viewing -->
+		<link rel="stylesheet" type="text/css" href="../css/PS2PacketPlayer.css" />
+
+		<style>
+		body {
+			padding: 0;
+			margin: 0;
+		}
+		</style>
+	</head>
+
+	<body>
+		<div id="viewer-container"></div>
+
+		<script type="text/javascript" src="js/getUrlParams.js"></script>
+		<script type="text/javascript">var _useCompileJS = getUrlParams().compiled === "1";</script>
+		<script type="text/javascript" src="js/embedScripts.js"></script>
+
+		<script type="text/javascript" src="js/connections/SynthConnection.js"></script>
+		<script type="text/javascript" src="js/connections/SynthConnectionDataset.js"></script>
+		<script type="text/javascript" src="js/connections/SynthConnectionCamera.js"></script>
+		<script type="text/javascript" src="js/connections/SynthConnectionTransform.js"></script>
+		<script type="text/javascript" src="js/connections/SynthConnectionPreloader.js"></script>
+		<script type="text/javascript" src="js/connections/SynthConnectionManager.js"></script>
+		<script type="text/javascript" src="js/connections/SynthConnectionViewer.js"></script>
+		<script type="text/javascript" src="js/connections/SynthTransitionStore.js"></script>
+
+		<script type="text/javascript">
+
+		var _params = PS.Utils.getUrlParams();
+		var _guid    = _params.guid    || "11a0c938-ea81-47c2-a140-65cba367d169";
+		var _startAt = _params.startAt || -1;
+
+		PS.API.SimpleAnnotationStorage.init(_annotationStorageURL, _annotationStoragePort, onStorageInitialized); //test if node annotation storage service is running
+
+		function onStorageInitialized(storage) {
+
+			//create annotation viewer
+			var _annotationViewer = new PS.Packet.Annotation.Viewer({
+				editEnabled: false,
+				onAnnotationClick: function(annotation, restingCamera) {
+
+					var annotationCamera = _player.packetViewer.dataset.cameras[annotation.camSIndex];
+
+					if (annotation.transform) {
+						_connectionManager.forwardTransition(annotation.dbid);
+					}
+					else {
+						if (_player.packetViewer.isPlaying()) {
+							_player.packetViewer.togglePlay();
+						}
+
+						if (restingCamera === annotationCamera) {
+							zoomToAnnotation(annotation);
+						}
+						else if (_player.seadragonViewer.isHomeZoom()) {
+							_player.packetViewer.gotoCamera(annotationCamera, {
+								onComplete: function() {
+									zoomToAnnotation(annotation);
+								}
+							});
+						}
+						else {
+							_player.seadragonViewer.goHome();
+							setTimeout(function() {
+								_player.packetViewer.gotoCamera(annotationCamera, {
+									onComplete: function() {
+										zoomToAnnotation(annotation);
+									}
+								});
+							}, 300);
+						}
+					}
+				}
+			});
+
+			var _currentCamera;
+			var _connectionAnnotations = [];
+			var _connectionManager;
+
+			//create viewer
+			var playerOptions = {
+				packetURL: "https://cdn.photosynth.net/ps2/"+_guid+"/packet/",
+				width:  window.innerWidth,
+				height: window.innerHeight,
+				corsEnabled: true,
+				seadragonEnabled: true,
+				autoResizeEnabled: true,
+				onToggleFullscreen: function(fullscreen) {
+					_annotationViewer.setFullscreenState(fullscreen);
+				},
+				viewer: {
+					pathToWorker: "../src/PacketPlayer/PacketViewer/WorkerParser.js",
+					autoStartEnabled: false,
+					progressBarEnabled: true,
+					startCameraIndex: _startAt,
+					onCanvasUpdated: function() {
+						_annotationViewer.init(_player);
+						_annotationViewer.setLayerVisibility(false);
+
+						//loading annotations
+						storage.load(_guid, function (annotations) {
+
+							var regularAnnotations = annotations.filter(function(a) { return !a.transform; });
+							_connectionAnnotations = annotations.filter(function(a) { return a.transform; });
+
+							_annotationViewer.clear();
+							_annotationViewer.load(regularAnnotations);
+						});
+
+					},
+					onDatasetLoaded: function(dataset) {
+						_guid = PS.extractGuid(dataset.rootUrl);
+					},
+					onAllGeometryLoaded: function() {
+						_annotationViewer.setLayerVisibility(true);
+						_connectionManager.init(_guid, _connectionAnnotations);
+					},
+					onCameraChanged: function(cam) {
+						_currentCamera = cam;
+						_annotationViewer.onCameraChanged(cam);
+					},
+					onCamerasChanged: function(a, b) {
+						_annotationViewer.onCamerasChanged(a, b);
+					},
+					onPositionChanged: function(qIndex) {
+						_annotationViewer.onPoseChanged(_player.packetViewer.renderer.getCamera());
+					},
+					onPoseChanged: function() {
+						_annotationViewer.onPoseChanged(_player.packetViewer.renderer.getCamera());
+					},
+					onContainerTransformed: function(tx, ty, scale) {
+						_annotationViewer.setTransform(tx, ty, scale);
+					},
+					onResize: function(resizeState, mode) {
+						_annotationViewer.resize(resizeState, mode);
+					},
+					onCameraModeChanged: function(mode) {
+						if (mode === PS.Packet.CameraMode.Global) {
+							_annotationViewer.setLayerVisibility(false);
+						}
+						else {
+							_annotationViewer.setLayerVisibility(true);
+							_annotationViewer.onPoseChanged(_player.packetViewer.renderer.getCamera());
+						}
+					}
+				},
+				seadragonViewer: {
+					onResize: function() {
+						_annotationViewer.onPoseChanged(_player.packetViewer.renderer.getCamera());
+					}
+				},
+				metadata: {
+					enableAnnotate: false,
+				}
+			};
+			PS.extend(playerOptions, PS.Packet.ViewerOptions.getUser());
+			var _player = new PS.Packet.Player(document.getElementById("viewer-container"), playerOptions);
+
+			_connectionManager = new PS.Packet.SynthConnectionManager(_player, _annotationViewer, {
+				displayTargetCameras: false,
+				displayTargetGeometry: true,
+				transitionDuration: 1000
+			});
+
+			function zoomToAnnotation(annotation) {
+
+				_player.packetViewer.cameraController.forceInputMode(0);
+
+				var viewport = _player.seadragonViewer.openSeadragon.viewport;
+
+				var scaling = 1.0 / viewport.viewportToImageZoom(viewport.getZoom());
+				var radius  = annotation.accurateRadius*scaling;
+
+				var contentSize = viewport.contentSize;
+				var center      = new THREE.Vector2(contentSize.x*annotation.queryPoint.x, contentSize.y*annotation.queryPoint.y);
+
+				var bounds = viewport.imageToViewportRectangle(new OpenSeadragon.Rect(center.x-radius, center.y-radius, radius*2, radius*2));
+				_player.seadragonViewer.fitBoundsWithConstraints(bounds, false);
+			}
+
+			window.addEventListener("popstate", function(e) {
+				e.preventDefault();
+				_connectionManager.back();
+			});
+
+		}
+
+		</script>
+	</body>
+</html>
