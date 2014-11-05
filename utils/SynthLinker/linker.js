@@ -33,7 +33,7 @@ else {
 				downloadMinimalPS2(target, outputFolder+"target/", body.Target, function() {
 
 					//run linker module
-					var cmd = 'bin\\Synther ';
+					var cmd = 'binary\\synthlinker ';
 					cmd += "-cid0 " + source.guid.toLowerCase() + " -frame0 " + source.sIndex + " -synthPath0 " + outputFolder + "source/ ";
 					cmd += "-cid1 " + target.guid.toLowerCase() + " -frame1 " + target.sIndex + " -synthPath1 " + outputFolder + "target/ ";
 					cmd += "-key " + body.Key;

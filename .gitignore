@@ -169,7 +169,9 @@ node_modules/*
 web/synths/*
 !web/synths/bordeaux
 build/*
+!build/build_goes_here.txt
 utils/SynthLinker/connections/*
+!utils/SynthLinker/connections/connections_store_here.txt
 utils/AnnotationStorage/db/*
 !utils/AnnotationStorage/db/mongodb_db_store_here.txt
 utils/FileWriter/files/*
