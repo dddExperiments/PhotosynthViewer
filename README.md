@@ -1,4 +1,7 @@
-[setup]
+# PhotosynthViewer
+Photosynth technical preview webgl viewer with photosynth REST API playground.
+
+## Setup
 - install latest version of node.js (tested with v0.10.29)
 	- http://nodejs.org/download/
 - install grunt globally
@@ -32,7 +35,7 @@
 		IIS: you need to add the .json mimetype support in IIS + directory listing
 		if you are interested in download performance you need to activate gzip compression for .bin files)
 
-[build]
+## Build
 - test only (js lint and unit test)
 	- run 'grunt test'
 - build only (js and css)
@@ -43,3 +46,7 @@
 	- run 'grunt'
 - count lines
 	- run 'grunt sloc'
+
+## License 
+PhotosynthViewer is released under MIT license. For details, see the LICENSE.TXT file.
+	
