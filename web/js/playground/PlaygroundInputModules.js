@@ -110,7 +110,7 @@ PS.API.Playground.MostRecentSynthsInputModule.prototype.createDOM = function() {
 	var str = "";
 	str += '<h3 input_type="most_recent_synths">Most recent synths</h3>';
 	str += '<div input_type="most_recent_synths">';
-	str += '	<p>There is a bug in the REST API right now so the synths returned by this input don\'t have any geotag information. Thus it\'s not possible to plot them on a map.</p>';
+	str += '	<p>Most recent public synths created by all users.</p>';
 	str += '</div>';
 
 	return str;
@@ -147,7 +147,6 @@ PS.API.Playground.MostFavoriteInputModule.prototype.createDOM = function() {
 	str += '		<option value="Favorites">Favorites</option>';
 	str += '		<option value="Views">Views</option>';
 	str += '	</select> <br />';
-	str += '	<p>There is a bug in the REST API right now so the synths returned by this input don\'t have any geotag information. Thus it\'s not possible to plot them on a map.</p>';
 	str += '</div>';
 
 	return str;
