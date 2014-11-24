@@ -48,6 +48,11 @@ PS.API.SimpleStaticStorage = new function() {
 				if (onInit) {
 					onInit(_that);
 				}
+			},
+			onError: function() {
+				if (onInit) {
+					onInit();
+				}
 			}
 		});
 	};

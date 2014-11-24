@@ -33,10 +33,11 @@
 PS.API.SimpleFileWriter = new function() {
 
 	var _nodeUrl = "";
+	var _that = this;
 
 	var _errorMessage = "You need to initialize the SimpleFileWriter to be able to use it!\nYou need to add PS.API.SimpleFileWriter.init(_simpleFileWriterUrl, _simpleFileWriterPort);";
 
-	this.init = function(url, port) {
+	this.init = function(url, port, onInit) {
 
 		if (url && port) {
 			_nodeUrl = "http://" + url + ":" + port + "/";
@@ -45,9 +46,15 @@ PS.API.SimpleFileWriter = new function() {
 			new PS.Utils.Request(_nodeUrl+"status", {
 				onComplete: function(xhr) {
 					console.log("File Writer running: " + xhr.responseText);
+					if (onInit) {
+						onInit(_that);
+					}
 				},
 				onError: function() {
 					console.warn("You need to run the node.js File Writer");
+					if (onInit) {
+						onInit();
+					}
 				}
 			});
 		}

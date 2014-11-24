@@ -27,7 +27,6 @@
 				cursor: -webkit-grab;
 			}
 		</style>
-		<link rel="stylesheet" type="text/css" href="../css/PS2PacketPlayer.css" />
 	</head>
 
 	<body>
@@ -92,7 +91,7 @@
 				autoResizeEnabled: false,
 				viewer: {
 					autoStartEnabled: false,
-					pathToWorker: "../src/PacketPlayer/PacketViewer/WorkerParser.js",
+					pathToWorker: _pathToWorkerParser,
 					onJsonParsed: function(v) {
 						var firstDominantColor = v.getDominantColors()[0];
 						dominantColor = "rgb("+firstDominantColor[0]+","+firstDominantColor[1]+","+firstDominantColor[2]+")";

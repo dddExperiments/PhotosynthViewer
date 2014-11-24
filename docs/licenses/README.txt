@@ -18,3 +18,6 @@
 	- API Playground
 		- vis.js: [MIT] used to display the timeline
 		- moment.js: [MIT] used by vis.js
+	-Presentation
+		- bootstrap: [MIT] layout of presentation page (index.html)
+		- jquery easing: [BSD] used to animate presentation page.

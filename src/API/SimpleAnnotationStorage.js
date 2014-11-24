@@ -51,6 +51,9 @@ PS.API.SimpleAnnotationStorage = new function() {
 				},
 				onError: function() {
 					console.warn("You need to run the fake node.js/mongodb storage");
+					if (onInit) {
+						onInit();
+					}
 				}
 			});
 		}

@@ -34,10 +34,11 @@
 PS.API.SimpleSynthLinker = new function() {
 
 	var _nodeUrl = "";
+	var _that = this;
 
 	var _errorMessage = "You need to initialize the SimpleSynthLinker to be able to use it!\nYou need to add PS.API.SimpleSynthLinker.init(_simpleSynthLinkerURL, _simpleSynthLinkerPort);";
 
-	this.init = function(url, port) {
+	this.init = function(url, port, onInit) {
 
 		if (url && port) {
 			_nodeUrl = "http://" + url + ":" + port + "/";
@@ -46,9 +47,15 @@ PS.API.SimpleSynthLinker = new function() {
 			new PS.Utils.Request(_nodeUrl+"status", {
 				onComplete: function(xhr) {
 					console.log("Linker service running: " + xhr.responseText);
+					if (onInit) {
+						onInit(_that);
+					}
 				},
 				onError: function() {
 					console.warn("You need to run the fake node.js linker service");
+					if (onInit) {
+						onInit();
+					}
 				}
 			});
 		}

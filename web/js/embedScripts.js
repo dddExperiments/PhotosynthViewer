@@ -4,8 +4,12 @@
 /* global _useCompileJS */
 
 /* exported _bingMapKey */
-//go to: http://msdn.microsoft.com/en-us/library/ff428642.aspx to have your own bing map key
-var _bingMapKey = ''; //ArNMeVPrTEWs-**********
+var _bingMapKey = '';
+
+/* exported _useStaticStorage */
+/* exported _staticStoragePrefix */
+var _useStaticStorage = false;
+var _staticStoragePrefix = "../utils/AnnotationStorage/dump/";
 
 /* exported _annotationStorageURL  */
 /* exported _annotationStoragePort */
@@ -25,11 +29,22 @@ var _simpleSynthLinkerPort = 4000;
 var _simpleFileWriterUrl  = "localhost";
 var _simpleFileWriterPort = 5000;
 
+var _pathToWorkerParser;
+
 if (_useCompileJS) {
+	_pathToWorkerParser = "../build/js/PS2PacketPlayer.worker.min.js";
+
+	document.write('<link rel="stylesheet" type="text/css" href="../build/css/PS2PacketPlayer.min.css" />');
+
 	document.write('<script type="text/javascript" src="../build/js/PS2PacketPlayer.min.js"></script>');
 	document.write('<script type="text/javascript" src="../build/js/PS2API.min.js"></script>');
 }
 else {
+	_pathToWorkerParser = "../src/PacketPlayer/PacketViewer/WorkerParser.js";
+
+	//css styling
+	document.write('<link rel="stylesheet" type="text/css" href="../css/PS2PacketPlayer.css" />');
+	document.write('<link rel="stylesheet" type="text/css" href="../css/PS2AnnotationEditor.css" />');
 
 	//ThirdParty
 	document.write('<script type="text/javascript" src="../src/ThirdParty/ie.float32array.js"></script>');

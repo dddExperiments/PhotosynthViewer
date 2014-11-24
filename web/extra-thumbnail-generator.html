@@ -1,20 +1,22 @@
 <!DOCTYPE HTML>
 <html lang="en">
 	<head>
-		<title>SDK demo</title>
+		<title>Thumbnail generator</title>
 		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=11,chrome=1">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 
 		<link rel="stylesheet" type="text/css" href="css/demos.css" />
-		<link rel="stylesheet" type="text/css" href="../css/PS2PacketPlayer.css" />
 		<style type="text/css">
 			body {
-				font-family:Arial;
+				font-family: Segoe UI;
+				font-weight: normal;
 				margin: 0px;
 				height: 100%;
 				padding: 10px;
 			}
-
+			h1, h3 {
+				font-weight: normal;
+			}
 			#viewer-container {
 				position: relative;
 			}
@@ -38,12 +40,13 @@
 		<script type="text/javascript">var _useCompileJS = getUrlParams().compiled === "1";</script>
 		<script type="text/javascript" src="js/embedScripts.js"></script>
 		<script type="text/javascript" src="js/ThumbnailGenerator.js"></script>
+		<script type="text/javascript" src="js/DebugPanel.js"></script>
 
 	</head>
 
 	<body>
 
-		<h1>Viewer SDK demo</h1>
+		<h1>Animated thumbnail generator</h1>
 		<div id="viewer-container">
 		</div>
 
@@ -55,12 +58,17 @@
 		<script type="text/javascript">
 		var container = document.getElementById("viewer-container");
 
-		PS.API.SimpleFileWriter.init(_simpleFileWriterUrl, _simpleFileWriterPort);
+		PS.DebugPanel.init();
+		PS.API.SimpleFileWriter.init(_simpleFileWriterUrl, _simpleFileWriterPort, function(writer) {
+			if (!writer) {
+				PS.DebugPanel.appendContent("<p>Please start <strong>utils/FileWriter/_launch.bat</strong> and refresh the page if you want to save thumbnails.</p>");
+			}
+		});
 
-		var url = "synths/bordeaux/";
+		var _guid = "19d5cf2b-77ed-439f-ac21-d3046320384c";
 
-		var _width  = 1280;
-		var _height = 720;
+		var _width  = 640;
+		var _height = 360;
 
 		var _thumbnailGenerator;
 
@@ -70,7 +78,7 @@
 			animateSpeed: 1.0,
 			autoStart: false,
 			screenshotEnabled: true,
-			pathToWorker: "../src/PacketPlayer/PacketViewer/WorkerParser.js",
+			pathToWorker: _pathToWorkerParser,
 		});
 
 		_viewer.addEventListener("dataset-rendered", function(dataset) {
@@ -81,7 +89,7 @@
 				width:  scissor.w,
 				height: scissor.h,
 				nbScreenshots: 20,
-				baseName: url.replace("synths/", "").replace("/", ""),
+				baseName: _guid,
 				onUpdate: function(processed, total) {
 					document.getElementById("info").innerHTML = processed + " / " + total;
 				}
@@ -97,7 +105,7 @@
 			}, false);
 		});
 
-		_viewer.load(url);
+		_viewer.loadGuid(_guid);
 
 		</script>
 

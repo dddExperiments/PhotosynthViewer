@@ -9,9 +9,6 @@
 
 		<meta charset="utf-8">
 
-		<!-- ps2 viewing + annotation viewing -->
-		<link rel="stylesheet" type="text/css" href="../css/PS2PacketPlayer.css" />
-
 		<script type="text/javascript" src="js/getUrlParams.js"></script>
 		<script type="text/javascript">var _useCompileJS = getUrlParams().compiled === "1";</script>
 		<script type="text/javascript" src="js/embedScripts.js"></script>
@@ -20,6 +17,7 @@
 		<script src="js/graph/d3.v3.min.js"></script>
 		<script src="js/graph/dagre-d3.min.js"></script>
 		<script src="js/graph/fillSynthGraph.js"></script>
+		<script src="js/DebugPanel.js"></script>
 
 		<style>
 		svg {
@@ -55,7 +53,7 @@
 	<body>
 		<button id="download" onclick="downloadJson()">download json (chrome only)</button>
 		<svg id="svg-graph-renderer">
-			<g transform="translate(20,20)"/>
+			<g transform="translate(20,20)"></g>
 		</svg>
 
 		<script>
@@ -64,10 +62,9 @@
 		var _tour = _params.tour || "forest.json";
 		var _guid = _params.guid || "c48a284f-14ef-4cb0-9339-573d62ce2227";
 
-		var useStaticStorage = false;
-		if (useStaticStorage) {
+		if (_useStaticStorage) {
 			//readonly storage from json dump
-			PS.API.SimpleStaticStorage.init("../utils/AnnotationStorage/dump/" + _tour, onStorageInitialized);
+			PS.API.SimpleStaticStorage.init(_staticStoragePrefix + _tour, onStorageInitialized);
 		}
 		else {
 			//node.js + mondb experimental storage
@@ -77,15 +74,20 @@
 		var _g = new dagre.Digraph();
 
 		function onStorageInitialized(storage) {
+			if (storage) {
+				fillSynthGraph(storage, _guid, _g, function() {
+					var svg = document.getElementById("svg-graph-renderer");
+					svg.setAttribute("width",  window.innerWidth);
+					svg.setAttribute("height", window.innerHeight);
 
-			fillSynthGraph(storage, _guid, _g, function() {
-				var svg = document.getElementById("svg-graph-renderer");
-				svg.setAttribute("width",  window.innerWidth);
-				svg.setAttribute("height", window.innerHeight);
-
-				var renderer = new dagreD3.Renderer();
-				renderer.run(_g, d3.select("svg g"));
-			});
+					var renderer = new dagreD3.Renderer();
+					renderer.run(_g, d3.select("svg g"));
+				});
+			}
+			else {
+				PS.DebugPanel.init();
+				PS.DebugPanel.setContent("<p>Please start <strong>utils/AnnotationStorage/_launch.bat</strong> and refresh the page.</p>");
+			}
 		}
 
 		function downloadJson() {

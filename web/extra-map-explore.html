@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Photosynth user on Bing Maps</title>
+		<title>Browse synths on the map</title>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
 		<meta charset="utf-8">
@@ -20,7 +20,7 @@
 		<script src="js/ThumbnailRotator.js"></script>
 		<script src="js/map/SynthMapClusterLayer.js"></script>
 		<script src="js/map/SynthMapSidebar.js"></script>
-		<script src="js/map/SynthMapAutoComplete.js"></script>
+		<script src="js/map/SynthMapAutocomplete.js"></script>
 	</head>
 	<body>
 		<div id="map-canvas"></div>
@@ -141,7 +141,7 @@
 
 			PS.Progress.init({color: "#b4e800"});
 
-			if (PS.Utils.getUrlParams().heros === "0") {
+			if (PS.Utils.getUrlParams().favorites === "0") {
 				PS.API.getListOfUserSynth("dddexperiments", {
 					filter: "SynthPackets",
 					maxItems: 300,
