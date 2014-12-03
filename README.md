@@ -10,7 +10,7 @@ Photosynth technical preview webgl viewer with photosynth REST API playground.
 	- go to the root of 
 	- run 'npm install'
 - to enable Bing map demos:
-	- open '/demos/js/embedScripts.js' and add your own bing map developper key.
+	- open '/web/js/embedScripts.js' and add your own bing map developper key.
 	- you can get a key at: http://msdn.microsoft.com/en-us/library/ff428642.aspx
 - to enable node.js + mongodb experimental AnnotationStorage (used to store highlight and synth connections) you need to
 	- install latest version of mongodb (tested with v2.6.3 - 2014-08-14T17:09:10.503-0700 git version: 255f67a66f9603c59380b2a389e386910bbb52cb)

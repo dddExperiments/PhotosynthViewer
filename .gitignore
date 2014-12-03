@@ -166,8 +166,6 @@ pip-log.txt
 #Datasets
 node_modules
 node_modules/*
-web/synths/*
-!web/synths/bordeaux
 build/*
 !build/build_goes_here.txt
 utils/SynthLinker/connections/*
