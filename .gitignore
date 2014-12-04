@@ -168,6 +168,9 @@ node_modules
 node_modules/*
 build/*
 !build/build_goes_here.txt
+!build/index-highlight-editing.html
+!build/index-highlight-viewing.html
+!build/index-minimal.html
 utils/SynthLinker/connections/*
 !utils/SynthLinker/connections/connections_store_here.txt
 utils/AnnotationStorage/db/*

@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<title>SDK demo</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=11,chrome=1">
+
+		<style type="text/css">
+			body {
+				font-family: Segoe UI;
+				margin: 0px;
+				height: 100%;
+			}
+			h1, h3 {
+				font-weight: normal;
+			}
+			#viewer-container {
+				position: relative;
+			}
+
+		</style>
+		<script type="text/javascript" src="js/PS2PacketPlayer.min.js"></script>
+		<script type="text/javascript" src="js/PS2API.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/PS2PacketPlayer.min.css" />
+
+	</head>
+
+	<body>
+		<div id="viewer-container">
+		</div>
+
+		<script type="text/javascript">
+
+		var _params = PS.Utils.getUrlParams();
+		var _guid   = _params.guid || "0eb13837-a617-4d0f-a0f2-a7ed792c92bd";
+		var _startCameraIndex = _params.startat ? parseInt(_params.startat, 10) : -1;
+		var _container = document.getElementById("viewer-container");
+
+		//create the viewer
+		var _viewer = new Photosynth.PS2Viewer(_container, {
+			width:  window.innerWidth,
+			height: window.innerHeight,
+			animateSpeed: 1.0,
+			autoStart: false,
+			autoResizeEnabled: true,
+			loggingEnabled: false,
+			pathToWorker: "js/PS2PacketPlayer.worker.min.js",
+			debugMenuEnabled: true
+		});	
+
+		//load the synth in the viewer
+		_viewer.loadGuid(_guid, {
+			startCameraIndex: _startCameraIndex
+		});
+
+		</script>
+
+	</body>
+</html>

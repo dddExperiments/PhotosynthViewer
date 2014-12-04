@@ -1,0 +1,141 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<title>SDK demo</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=11,chrome=1">
+
+		<style type="text/css">
+			* {
+				margin: 0px;
+				padding: 0px;
+			}
+
+			html, body {
+				font: 16px 'wf_segoe-ui_light','Segoe UI Light','Segoe WP Light','Segoe UI','Segoe WP',Tahoma,Arial,sans-serif;
+				overflow: none;
+				-ms-content-zooming: none;
+				-ms-touch-action: none;
+				touch-action: none;
+			}
+
+			h1, h3 {
+				font-weight: normal;
+			}
+			#viewer-container {
+				position: relative;
+			}
+
+		</style>
+		<script type="text/javascript" src="js/PS2PacketPlayer.min.js"></script>
+		<script type="text/javascript" src="js/PS2API.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/PS2PacketPlayer.min.css" />
+
+	</head>
+
+	<body>
+		<div id="viewer-container">
+		</div>
+
+		<script type="text/javascript">
+
+		var _params = PS.Utils.getUrlParams();
+		var _guid   = _params.guid || "0eb13837-a617-4d0f-a0f2-a7ed792c92bd";
+		var _startCameraIndex = _params.startat ? parseInt(_params.startat, 10) : -1;
+
+		PS.API.SimpleAnnotationStorage.init("localhost", 3000, onStorageInitialized);
+
+		function onStorageInitialized(storage) {
+			if (!storage) { //test if storage was successfully initialized
+				console.log("Please start <strong>utils/AnnotationStorage/_launch.bat</strong> and refresh the page if you want to read/write annotations.");
+				return;
+			}
+
+			PS.API.SimpleSynthLinker.init("localhost", 4000, function(linker) {
+				if (!linker) { //test if node synth linking service is running
+					console.log("Please start <strong>utils/SynthLinker/_launch.bat</strong> and refresh the page if you want to create synth connections.");
+				}
+			});
+
+			createViewer(storage);
+		}
+
+		function createViewer(storage) {
+
+			var _container = document.getElementById("viewer-container");
+
+			//create synth viewer
+			var _viewer = new Photosynth.PS2Viewer(_container, {
+				width:  window.innerWidth,
+				height: window.innerHeight,
+				autoStart: false,
+				pathToWorker: "js/PS2PacketPlayer.worker.min.js",
+				autoResizeEnabled: true,
+				annotateEnabled: true,
+				debugMenuEnabled: true
+			});
+
+			_viewer.addEventListener("camera-changed", function(cam, sIndex) {
+				window.history.replaceState(null, null, "?guid="+_guid+"&startat="+sIndex);
+			});
+
+			//create the annotation viewer
+			//(you need to create the annotation viewer before loading a synth = before calling _viewer.loadGuid)
+			var _annotationViewer = new Photosynth.PS2AnnotationViewer(_viewer, {
+				editEnabled: true,
+				visibleInFullscreen: true
+			});
+
+			//load some annotations in the annotation viewer
+			_annotationViewer.addEventListener("init", function() {
+
+				//loading annotations from storage
+				storage.load(_guid, function (annotations) {
+					_annotationViewer.load(annotations);
+				});
+			});
+
+			//create the annotation editor
+			var _annotationEditor = new Photosynth.PS2AnnotationEditor(_viewer, _annotationViewer, _container);
+
+			_annotationEditor.addEventListener("annotation-created", function(annotation, thumbInfo, callback) {
+				storage.insert(_guid, annotation, thumbInfo, function(dbid) {
+					callback(true, dbid); //first parameter = succeed or not
+				});
+			});
+
+			_annotationEditor.addEventListener("annotation-edited", function(annotation, thumbInfo, callback) {
+				storage.update(_guid, annotation, function(dbid) {
+					callback(true, dbid);
+				});
+			});
+
+			_annotationEditor.addEventListener("annotation-delete", function(annotation, callback) {
+				if (window.confirm("Do you really want to delete this annotation ?")) {
+					callback(true); //this will remove the annotation from the viewer
+
+					storage.remove(_guid, annotation);
+				}
+				else {
+					callback(false);
+				}
+			});
+
+			_annotationEditor.addEventListener("synth-connection-requested", function(request, dbid) {
+				request.source.guid = _guid;
+				request.source.annotationDBID = dbid;
+
+				//create a connection between 2 synths
+				PS.API.SimpleSynthLinker.create(request);
+			});
+
+			//load the synth in the viewer
+			_viewer.loadGuid(_guid, {
+				startCameraIndex: _startCameraIndex
+			});
+		}
+
+		</script>
+
+	</body>
+</html>
