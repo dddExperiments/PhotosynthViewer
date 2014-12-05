@@ -120,9 +120,5 @@ function handleRequest(request, response) {
 
 http.createServer(handleRequest).listen(port);
 
-require('dns').lookup(require('os').hostname(), function (err, addr/*, fam*/) {
-	console.log('Running at http://' + addr  + ((port === 80) ? '' : ':') + port + '/');
-});
-
-console.log('SimpleHttpServer started...');
-console.log('Base directory at ' + currentDir);
+console.log('SimpleHttpServer started on port ' + port);
+console.log("Open your browser at http://localhost:" + port);
