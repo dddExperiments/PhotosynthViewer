@@ -171,6 +171,7 @@ build/*
 !build/index-highlight-editing.html
 !build/index-highlight-viewing.html
 !build/index-minimal.html
+!build/index-tour.html
 utils/SynthLinker/connections/*
 !utils/SynthLinker/connections/connections_store_here.txt
 utils/AnnotationStorage/db/*

@@ -57,7 +57,7 @@ module.exports = function(grunt) {
 		pkg: grunt.file.readJSON('package.json'),
 
 		clean: {
-			all: ['build/*.*', 'build/js/', 'build/css/', '!build/build_goes_here.txt', '!build/index-minimal.html', '!build/index-highlight-viewing.html', '!build/index-highlight-editing.html'],
+			all: ['build/*.*', 'build/js/', 'build/css/', '!build/build_goes_here.txt', '!build/index-minimal.html', '!build/index-highlight-viewing.html', '!build/index-highlight-editing.html', '!build/index-tour.html'],
 			tmp: ['build/tmp*.*'],
 		},
 		concat: {
