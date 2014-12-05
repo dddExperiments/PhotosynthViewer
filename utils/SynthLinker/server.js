@@ -1,5 +1,7 @@
 "use strict";
 
+var _port = 4000;
+
 var express = require('express');
 var async   = require('async');
 var exec    = require('child_process').exec;
@@ -7,9 +9,6 @@ var fs      = require('fs');
 var request = require('request');
 
 var app = express();
-
-app.configure(function () {
-});
 
 app.all('/*', function(req, res, next) {
 	res.header("Access-Control-Allow-Origin", "*");
@@ -72,7 +71,6 @@ var _queue = async.queue(function(task, callback) {
 	});
 
 }, 1);
-
 app.get('/status', function(req, res) {
 	res.send("OK");
 });
@@ -93,6 +91,35 @@ app.post('/requests', function(req, res) {
 
 	res.send(JSON.stringify({'queue-length': _jobs.length}));
 });
+app.get('/', function(req, res) {
 
-app.listen(4000);
-console.log('Listening on port 4000...');
+	var htmlContent = "";
+	htmlContent += "<style>\n";
+	htmlContent += "body { font-family: Segoe UI; }\n";
+	htmlContent += "</style>\n";
+
+	htmlContent += "<script>\n";
+	htmlContent += "function gotoSynth(guid) { if (guid) { window.location.href='/synths/'+guid; }}\n";
+	htmlContent += "</script>\n";
+
+	htmlContent += "<h1>Experimental SynthLinker service</h1>\n";
+	htmlContent += "<p>There are "+ _jobs.length + " connections to process in the queue.</p>\n";
+
+	if (_jobs.length > 0) {
+
+		htmlContent += "<h3>Actions</h3>\n";
+
+		htmlContent += "<ul>\n";
+		htmlContent += "	<li>See all connections: <button onclick=\"window.location.href='/requests'\">go</button></li>\n";
+		htmlContent += "</ul>\n";
+		htmlContent += "<br />\n";
+		htmlContent += "<br />\n";
+		htmlContent += "<p>Powered by node.js.</p>\n";
+	}
+	res.writeHead(200, {'Content-Type': 'text/html'});
+	res.end(htmlContent);
+});
+
+app.listen(_port);
+console.log('Synth linker started on port: ' + _port);
+console.log('You can go to http://localhost:' + _port + '/ to see some information about the synth linker');
