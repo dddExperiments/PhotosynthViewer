@@ -4,6 +4,8 @@
 
 html, body {
 	-ms-content-zooming: none;
+	-ms-touch-action: none;
+	touch-action: none;
 }
 
 

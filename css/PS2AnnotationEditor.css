@@ -14,6 +14,8 @@
 .PSAnnotationEditorLayer * {
 	font: 16px 'wf_segoe-ui_light','Segoe UI Light','Segoe WP Light','Segoe UI','Segoe WP',Tahoma,Arial,sans-serif;
 	-ms-content-zooming: none;
+	margin: 0;
+	padding: 0;
 }
 
 .PSAnnotationEditorLayer .title {
