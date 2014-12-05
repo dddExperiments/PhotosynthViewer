@@ -223,12 +223,11 @@ exports.clear = function(req, res) {
 
 exports.index = function(req, res) {
 
-	
 	//get list of synths in the database
 	_db.collection('synths', function(err, collection) {
 		collection.find().toArray(function(err, items) {
 			var guids = items.map(function(c) { return c.guid; });
-			
+
 				var htmlContent = "";
 				htmlContent += "<style>\n";
 				htmlContent += "body { font-family: Segoe UI; }\n";
