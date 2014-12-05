@@ -4,10 +4,12 @@ Photosynth technical preview webgl viewer with photosynth REST API playground.
 ## Setup
 - install latest version of node.js (tested with v0.10.29)
 	- http://nodejs.org/download/
+	- make sure that node and npm are in the path (npm install was broken for me and I had to create manually C:\Users\YOUR_USERNAME\AppData\Roaming\npm)
 - install grunt globally
+	- in your command line from anywhere
 	- run 'npm install -g grunt-cli'
 - install dependencies
-	- go to the root of 
+	- go to the root of the open source package
 	- run 'npm install'
 - to enable Bing map demos:
 	- open '/web/js/embedScripts.js' and add your own bing map developper key.
@@ -15,22 +17,24 @@ Photosynth technical preview webgl viewer with photosynth REST API playground.
 - to enable node.js + mongodb experimental AnnotationStorage (used to store highlight and synth connections) you need to
 	- install latest version of mongodb (tested with v2.6.3 - 2014-08-14T17:09:10.503-0700 git version: 255f67a66f9603c59380b2a389e386910bbb52cb)
 		- http://www.mongodb.org/downloads
-	- go to 'utils/AnnotationStorage'
-	- run 'npm install'
-	- run '__launch.bat'
+		- make sure that mongod is in the path
+	- in the command line go to 'utils/AnnotationStorage'
+	- run '__launch.bat' (first time wait for npm install to complete)
+	- optionally open your browser at http://localhost:3000 
 	- you can import some dumped datasets by running:
-		- node import.js dump\forest.json
-		- node import.js dump\san_francisco_heart.json
-		- node import.js dump\puy_en_velay.json
+		- 'node import.js dump\forest.json'
+		- 'node import.js dump\san_francisco_heart.json'
+		- 'node import.js dump\puy_en_velay.json'
 - to enable node.js experimental SynthLinker (used to create connections between 2 synths to create a virtual tour) you need to
-	- go to 'utils/SynthLinker'
-	- run 'npm install'
-	- run '__launch.bat'
+	- in the command line go to 'utils/SynthLinker'
+	- run '__launch.bat' (first time wait for npm install to complete)
+	- optionally open your browser at http://localhost:4000 
 
 - to view the content available in the /web folder you need a web server
-	- You can use a minimal node.js web server (modified from three.js)
+	- You can use the minimal node.js web server (modified from three.js)
 		- go to 'utils/SimpleHttpServer/'
 		- run '__launch.bat'
+		- open your browser at http://localhost:8000
 	- OR you can setup apache/IIS to have a webserver pointing to this folder 
 		IIS: you need to add the .json mimetype support in IIS + directory listing
 		if you are interested in download performance you need to activate gzip compression for .bin files)
