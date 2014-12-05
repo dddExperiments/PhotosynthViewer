@@ -1,12 +1,11 @@
 "use strict";
 
+var _port = 3000;
+
 var express = require('express');
 var synths = require('./routes/synths');
 
 var app = express();
-
-app.configure(function() {
-});
 
 app.all('/*', function(req, res, next) {
 	res.header("Access-Control-Allow-Origin", "*");
@@ -35,6 +34,7 @@ app.all('/*', function(req, res, next) {
 app.get('/status', function(req, res) {
 	res.send("OK");
 });
+app.get('/',              synths.index);
 app.get('/clear',         synths.clear);
 app.get('/synths',        synths.findAll);
 app.get('/synths/:id',    synths.findByGuid);
@@ -44,5 +44,6 @@ app.delete('/synths/:id', synths.deleteAnnotation);
 
 app.post('/addConnectionInfo', synths.addConnectionInfo);
 
-app.listen(3000);
-console.log('Listening on port 3000...');
+app.listen(_port);
+console.log('Annotation storage started on port: ' + _port);
+console.log('You can go to http://localhost:' + _port + '/ to see some information about the storage');
