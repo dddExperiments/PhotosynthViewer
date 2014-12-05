@@ -27,7 +27,8 @@ Photosynth.SynthTourViewer = function(div, storage, startingGuid, options) {
 		animateSpeed: 1.0,
 		autoStart: false,
 		pathToWorker: _options.pathToWorker,
-		autoResizeEnabled: true
+		autoResizeEnabled: true,
+		debugMenuEnabled: true
 	});
 
 	_viewer.addEventListener("dataset-loaded", function(dataset) {
