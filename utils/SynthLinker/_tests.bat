@@ -7,26 +7,14 @@ rem node linker.js https://photosynth.net/preview/view/0f68fe49-66c2-4e59-88b3-7
 rem puy en velay
 rem node linker.js https://photosynth.net/preview/view/4d96b185-b921-40d5-a1ef-a668eff75fb9?startat=22 https://photosynth.net/preview/view/c87197d6-ee59-4e78-9e88-4d8d2705931d?startat=0
 
-rem san francisco heart
-rem node linker.js https://photosynth.net/preview/view/11a0c938-ea81-47c2-a140-65cba367d169?startat=20 https://photosynth.net/preview/view/048b48f0-db27-4a30-a6ff-39b24243bedc?startat=26
-
 rem banyan tree
 rem node linker.js https://photosynth.net/preview/view/561953d7-d7b6-4c82-b35d-1d500480be21?startat=55 https://photosynth.net/preview/view/ff573422-83e3-4904-aa54-b45c34e0f244?startat=0
 
 rem failing converse (failing)
 rem node linker.js https://photosynth.net/preview/view/cfc84c61-525d-43c2-96f9-cb863f05f7f0?startat=11 https://photosynth.net/preview/view/4805c7f0-5aa4-415d-a72a-f35d7ae2d1db?startat=6
 
-rem fountain sheraton vancouver (failing)
-rem node linker.js https://photosynth.net/preview/view/4143899c-6a73-4e7a-a0f5-a0460f734471?startat=103 https://photosynth.net/preview/view/2de853da-f1c0-4598-a800-bbdb071c18e3?startat=10
-
 rem boulder theater - pano to pano
 rem node linker.js https://photosynth.net/preview/view/448a6f5f-03ca-4190-86b8-ffc0f349b83a?startat=24 https://photosynth.net/preview/view/97b22d7f-bc27-490c-b4fa-756ac4b403d5?startat=3
 
 rem boulder theater - pano to spin
 rem node linker.js https://photosynth.net/preview/view/97b22d7f-bc27-490c-b4fa-756ac4b403d5?startat=3 https://photosynth.net/preview/view/163fecf6-8abd-4964-9f42-109865fd515e?startat=10
-
-rem vancouver Inuksuk - spin to spin (portrait to landscape)
-rem node linker.js https://photosynth.net/preview/view/e4ed0ac9-fbc2-4eac-b65c-5bf116d7482f?startat=14 https://photosynth.net/preview/view/fd55c184-3eb9-4eae-8cf5-7a974865dff0?startat=10
-
-rem vancouver Inuksuk - spin to spin (landscape to portrait)
-rem node linker.js https://photosynth.net/preview/view/fd55c184-3eb9-4eae-8cf5-7a974865dff0?startat=4 https://photosynth.net/preview/view/e4ed0ac9-fbc2-4eac-b65c-5bf116d7482f?startat=6
