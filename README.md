@@ -8,6 +8,9 @@ Photosynth technical preview webgl viewer with photosynth REST API playground.
 - install grunt globally
 	- in your command line from anywhere
 	- run 'npm install -g grunt-cli'
+- install Git (if it's not already in your path)
+	- https://git-scm.com/download/win
+	- make sure that git is in the path
 - install dependencies
 	- go to the root of the open source package
 	- run 'npm install'
